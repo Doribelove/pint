@@ -170,13 +170,17 @@ def _parse_wrap_args(args, registry=None, *, has_varargs=False):
 
         # second pass: calculate derived values based on named values
         for ndx in dependent_args_ndx:
-            for pos in indices[ndx]:
+            positions = indices[ndx]
+            if not positions:
+                continue
+            target_units = _replace_units(args_as_uc[ndx][0], values_by_name)
+            assert target_units is not None
+            for pos in positions:
                 value = values[pos]
-                assert _replace_units(args_as_uc[ndx][0], values_by_name) is not None
                 values[pos] = ureg._convert(
                     getattr(value, "_magnitude", value),
                     getattr(value, "_units", UnitsContainer({})),
-                    _replace_units(args_as_uc[ndx][0], values_by_name),
+                    target_units,
                 )
 
         # third pass: convert other arguments

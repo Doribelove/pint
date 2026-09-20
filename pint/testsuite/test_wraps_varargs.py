@@ -201,6 +201,15 @@ def test_keyword_only_reference_for_varargs(ureg, count):
     assert result.magnitude == sum([1, 2][:count])
 
 
+def test_empty_varargs_reference_does_not_rebind_to_keyword_dependency(ureg):
+    @ureg.wraps(None, ("=A", "=A"))
+    def collect(*values, tail):
+        return values, tail
+
+    with pytest.raises(DimensionalityError):
+        collect(tail=ureg.Quantity(1, "m"))
+
+
 def test_none_varargs_between_converted_parameters(ureg):
     @ureg.wraps(None, ("m", None, "s"))
     def collect(head, *tail, duration):
