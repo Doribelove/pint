@@ -5,6 +5,7 @@ Pint Changelog
 -------------------
 
 - Fix `UnitRegistry.wraps()` converting only the first variadic positional argument and failing on empty `*args`; preserve keyword-only arguments and defaults (#2254)
+- Improve type annotations for `Unit`: `/` and `**` keep the unit type, and `__copy__`/`__deepcopy__` keep the registry subclass (#2406)
 - Fix `numpy.sum`/`numpy.nansum` not converting a Quantity `initial` value, unlike `numpy.max`/`numpy.min` (#2400)
 - Fix `Quantity.to_compact()` raising `OffsetUnitCalculusError` for offset units like `degree_Celsius` with magnitude below 1 (#2005)
 - Fix CI installing the numpy matrix pin outside the pixi env on Windows/macOS, so those legs ran the no-numpy test suite (#2402)
